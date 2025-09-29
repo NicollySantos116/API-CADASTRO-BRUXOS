@@ -27,22 +27,17 @@ const getAllBruxos = (req,res) => {
      res.status(200).json(bruxo);
  };
 
-const createBruxo = (req, res) => {
-    const { nome, idade, casa, varinha } = req.body;
+ const createBruxo = (req, res) => {
+    const { nome, idade, casa } = req.body;
 
-    if (!nome || !idade || !casa || !varinha) {
-        return res.status(400).json({
-            mensagem: "Feitiço mal executado! Verifique os ingredientes."
-        });
+    if (!nome || !idade || !casa) {
+     return res.status(400).json({
+        mensagem: "Feitiço mal executado! Verifique os ingredientes!"
+     });
+
     }
 
-    if (varinha.length < 3) {
-        return res.status(400).json({
-            mensagem: "Feitiço mal executado! Verifique os ingredientes."
-        });
-    }
-
-    const existe = bruxos.find(b => b.nome.toLowerCase() === nome.toLowerCase());
+    const existe = bruxos.find(b => b.nome.toLocaleLowerCase() === nome.toLocaleLowerCase());
     if (existe) {
         return res.status(409).json({
             mensagem: "Já existe um bruxo com esse nome!"
@@ -53,8 +48,7 @@ const createBruxo = (req, res) => {
         id: bruxos.length + 1,
         nome,
         idade,
-        casa,
-        varinha
+        casa
     };
 
     bruxos.push(novoBruxo);
@@ -63,8 +57,8 @@ const createBruxo = (req, res) => {
         mensagem: "Novo bruxo matriculado em Hogwarts!",
         bruxo: novoBruxo
     });
-};
 
+    };
 
 const updateBruxo = (req, res) => {
     const id = parseInt(req.params.id);
